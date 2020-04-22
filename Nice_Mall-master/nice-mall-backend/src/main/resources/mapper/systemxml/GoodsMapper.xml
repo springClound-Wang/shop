@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Goods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_desc" property="goodsDesc"/>
+        <result column="goods_pre_price" property="goodsPrePrice"/>
+        <result column="goods_cur_price" property="goodsCurPrice"/>
+        <result column="goods_brand" property="goodsBrand"/>
+        <result column="goods_place" property="goodsPlace"/>
+        <result column="image_main" property="imageMain"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="SpikeNeedResult" type="com.fdj.nicemallbackend.system.dto.Spikes">
+        <id column="goods_cur_price" property="goodsCurPrice"/>
+        <id column="goods_pre_price" property="goodsPrePrice"/>
+        <id column="store_goods_number" property="storeGoodsNumber"/>
+    </resultMap>
+    <insert id="save" useGeneratedKeys="true" keyProperty="goodsId" keyColumn="goods_id">
+        insert into m_goods
+        values (NULL, #{goodsName}, #{goodsDesc}, #{goodsPrePrice}, #{goodsCurPrice}, #{goodsBrand}, #{goodsPlace},
+                #{imageMain} ,NOW())
+    </insert>
+    <select id="selectFuzzyByfiled" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price
+        from m_goods
+        where goods_name like concat('%', #{field,jdbcType=VARCHAR}, '%')
+    </select>
+    <select id="selectById" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price
+        from m_goods
+        where goods_id = #{goodsId}
+    </select>
+    <select id="findById" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price
+        from m_goods
+        where goods_id = #{goodsId}
+    </select>
+    <select id="selectAllById" resultMap="BaseResultMap">
+        select *
+        from m_goods
+        where goods_id = #{goodsId}
+    </select>
+    <select id="selectPart" resultMap="SpikeNeedResult">
+        select m_goods.goods_id,
+               m_goods.goods_cur_price,
+               m_goods.goods_pre_price,
+               NULL,
+               NULL,
+               m_store_goods.store_goods_number
+        from m_goods,
+             m_store_goods
+        where m_goods.goods_id = #{goodsId}
+          and m_store_goods.goods_id = m_goods.goods_id
+    </select>
+    <select id="selectLimit" resultType="com.fdj.nicemallbackend.system.dto.Findgoods">
+        select goods_id, goods_name, image_main, goods_pre_price, goods_cur_price
+        from m_goods
+        LIMIT #{offset},#{limit}
+    </select>
+</mapper>

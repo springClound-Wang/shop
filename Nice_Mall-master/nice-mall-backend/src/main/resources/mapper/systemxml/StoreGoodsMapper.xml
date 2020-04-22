@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.StoreGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.StoreGoods">
+        <id column="business_id" property="businessId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="store_goods_number" property="storeGoodsNumber"/>
+        <result column="goods_sales_volume" property="goodsSalesVolume"/>
+    </resultMap>
+    <insert id="save">
+        insert into m_store_goods
+        values (#{businessId}, #{goodsId,jdbcType=BIGINT}, #{storeGoodsNumber}, #{goodsSalesVolume,jdbcType=BIGINT})
+    </insert>
+    <select id="selectBygoodsId" resultMap="BaseResultMap">
+        select *
+        from m_store_goods
+        where goods_id = #{goodsId}
+    </select>
+    <select id="selectBybusinessId" resultMap="BaseResultMap">
+        select *
+        from m_store_goods
+        where business_id = #{id}
+    </select>
+    <update id="decreaseStock" parameterType="java.util.List">
+        <foreach collection="storage" item="item" index="index" separator=";" open="" close="">
+            update m_store_goods
+            <set>
+                store_goods_number = m_store_goods.store_goods_number - #{item.goodsNum,jdbcType=INTEGER},
+                goods_sales_volume = m_store_goods.goods_sales_volume + #{item.goodsNum,jdbcType=INTEGER}
+            </set>
+            where goods_id = #{item.goodsId,jdbcType=BIGINT} and m_store_goods.store_goods_number > 0
+        </foreach>
+    </update>
+    <update id="unlockStock">
+        <foreach collection="storage" item="item" index="index" separator=";" open="" close="">
+            update m_store_goods
+            <set>
+                store_goods_number = m_store_goods.store_goods_number + #{item.goodsNum,jdbcType=INTEGER},
+                goods_sales_volume = m_store_goods.goods_sales_volume - #{item.goodsNum,jdbcType=INTEGER}
+            </set>
+            where goods_id = #{item.goodsId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

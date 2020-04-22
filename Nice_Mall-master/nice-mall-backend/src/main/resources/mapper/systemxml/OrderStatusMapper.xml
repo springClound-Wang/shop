@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.OrderStatusMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.OrderStatus">
+        <id column="order_id" property="orderId"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="payment_time" property="paymentTime"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+    <update id="updateByOrderIdList">
+        <foreach collection="orderIds" item="item" index="index" separator=";" open="" close="">
+            update m_order_status
+            <set>
+                order_status = #{orderStatus,jdbcType=INTEGER}
+            </set>
+            where order_id = #{item}
+        </foreach>
+    </update>
+    <update id="updateByOrderId">
+        update m_order_status
+        set
+        order_status= #{orderStatus,jdbcType=INTEGER} ,
+        <if test="paymentTime != null">
+            payment_time=#{paymentTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="deliveryTime != null">
+            delivery_time = #{deliveryTime,jdbcType=TIMESTAMP} ,
+        </if>
+        <if test="endTime != null">
+            end_time = #{endTime,jdbcType=TIMESTAMP},
+        </if>
+        order_id = #{orderId}
+        where order_id = #{orderId}
+    </update>
+    <select id="selectUnPay" resultMap="BaseResultMap">
+        select *
+        from m_order_status
+        where order_status = 0
+    </select>
+    <delete id="deleteByOrderId">
+        delete from m_order_status where order_id = #{orderId,jdbcType=VARCHAR}
+    </delete>
+    <!--    <delete id="clearTimeOut">-->
+<!--        delete-->
+<!--        from m_order,-->
+<!--             m_order_status,-->
+<!--             m_order_detail-->
+<!--        where nice_mall.m_order_status.order_id = #{orderId,jdbcType=VARCHAR}-->
+<!--          and nice_mall.m_order_detail.order_id = nice_mall.m_order_status.order_id-->
+<!--          and  nice_mall.m_order.order_id = nice_mall.m_order_status.order_id-->
+<!--    </delete>-->
+</mapper>

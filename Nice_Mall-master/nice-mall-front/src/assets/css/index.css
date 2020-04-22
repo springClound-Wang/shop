@@ -1,0 +1,113 @@
+*{
+    margin: 0;
+    padding:0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+/*登录注册*/
+.form-inline{
+  width: 80%;
+  min-height: 260px;
+  margin: 10px auto;
+  text-align: center;
+  position: relative;
+  padding: 5px;
+}
+/*登录注册按钮*/
+.form-inline .btn{
+  background: #889fcc;
+  border: none;
+  padding: 7px 13px;
+  margin-top: 5px;
+  color: white;
+  font-size: 14px;
+  border-radius: 3px;
+}
+.form-inline .btn:hover{
+    color: white;
+}
+.form-inline .iconfont{
+    position: absolute;
+    left: 0;
+    top:0;
+    font-size: 25px;
+    color: white;
+    width: 40px;
+    height: 45px;
+    padding: 0;
+    line-height: 45px;
+    display: inline-block;
+    background: #889fcc;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.form-inline label{
+    position: relative;
+    height: 42px;
+    margin-top: 10px;
+    display: block;
+    margin-left: 20px;
+}
+label input{
+  margin-left: 30px;
+  outline: none;
+  height: 43px !important;
+  border: 1px solid #d5d4d4;
+  width: 200px;
+  position: absolute;
+  left: 10px;
+  padding-left: 10px;
+}
+#forget-password{
+  float: left;
+  margin-top: 12px;
+}
+
+/*组件切换动画*/
+.myactive{
+    text-decoration: none;
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+    color: #322f2f;
+}
+.router-link-active{
+    text-decoration: none;
+}
+.v-enter,.v-leave-to{
+    opacity: 0;
+    transform: rotateX(180deg);
+}
+.v-enter-active,.v-leave-active{
+    transition: all .5s ease-in;
+}
+/*轮播图*/
+.mint-swipe-indicator.is-active {
+    background: #ff2a23;
+}
+.mint-swipe-indicator {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 100%;
+    background: #000;
+    opacity: 0.5;
+    margin: 0 3px;
+}
+
+
+
+/*连接样式*/
+ul{
+    list-style: none;
+}
+
+.btn{
+  border: 1px solid #d5d4d4;
+  background-color: #FFFFFF;
+}
+

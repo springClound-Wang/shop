@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.SortMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.Sort">
+        <id column="sort_id" property="sortId" />
+        <result column="sort_name" property="sortName" />
+        <result column="sort_english_name" property="sortEnglishName" />
+        <result column="sort_have" property="sortHave" />
+    </resultMap>
+    <select id="selectId" resultType="com.fdj.nicemallbackend.system.entity.Sort">
+        select * from m_sort where sort_english_name = #{name}
+    </select>
+    <select id="selectAll" resultType="com.fdj.nicemallbackend.system.entity.Sort">
+        select * from m_sort
+    </select>
+    <select id="selectByName" resultType="java.lang.Integer">
+        select sort_id from m_sort where sort_name = #{sortName}
+    </select>
+    <select id="selectBySortId" resultMap="BaseResultMap">
+        select * from m_sort where sort_id = #{sortId}
+    </select>
+
+</mapper>

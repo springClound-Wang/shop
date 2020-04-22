@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fdj.nicemallbackend.system.mapper.SortListTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fdj.nicemallbackend.system.entity.SortListType">
+        <id column="sort_list_type_id" property="sortListTypeId"/>
+        <result column="sort_list_id" property="sortListId"/>
+        <result column="sort_list_name" property="sortListName"/>
+    </resultMap>
+    <insert id="save" useGeneratedKeys="true" keyProperty="sortListTypeId" keyColumn="sort_list_type_id">
+        insert into sort_list_type
+        values (NULL, #{sortListId}, #{sortListName})
+    </insert>
+    <select id="selectId" resultMap="BaseResultMap">
+        select *
+        from sort_list_type
+        where sort_list_id = #{sortListNameId}
+          and sort_list_name = #{sortListTypeName}
+    </select>
+    <select id="selectBysortListNametId" resultType="java.lang.String">
+        select sort_list_name
+        from sort_list_type
+        where sort_list_id = #{sortListId}
+    </select>
+    <select id="selectPartId" resultType="java.lang.Integer">
+        select sort_list_type_id
+        from sort_list_type
+        where sort_list_name = #{field,jdbcType=VARCHAR}
+    </select>
+
+</mapper>
